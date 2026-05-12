@@ -14,7 +14,59 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      datasets: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          total_rows: number
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          total_rows?: number
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          total_rows?: number
+        }
+        Relationships: []
+      }
+      tweets: {
+        Row: {
+          created_at: string
+          dataset_id: string
+          id: string
+          label: string
+          tweet: string
+        }
+        Insert: {
+          created_at?: string
+          dataset_id: string
+          id?: string
+          label: string
+          tweet: string
+        }
+        Update: {
+          created_at?: string
+          dataset_id?: string
+          id?: string
+          label?: string
+          tweet?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tweets_dataset_id_fkey"
+            columns: ["dataset_id"]
+            isOneToOne: false
+            referencedRelation: "datasets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
