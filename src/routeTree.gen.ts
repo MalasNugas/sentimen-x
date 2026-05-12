@@ -9,38 +9,120 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as DashboardIndexRouteImport } from './routes/dashboard.index'
+import { Route as DashboardTentangRouteImport } from './routes/dashboard.tentang'
+import { Route as DashboardHasilRouteImport } from './routes/dashboard.hasil'
+import { Route as DashboardDatasetRouteImport } from './routes/dashboard.dataset'
+import { Route as DashboardAnalisisRouteImport } from './routes/dashboard.analisis'
 
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DashboardIndexRoute = DashboardIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardTentangRoute = DashboardTentangRouteImport.update({
+  id: '/tentang',
+  path: '/tentang',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardHasilRoute = DashboardHasilRouteImport.update({
+  id: '/hasil',
+  path: '/hasil',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardDatasetRoute = DashboardDatasetRouteImport.update({
+  id: '/dataset',
+  path: '/dataset',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardAnalisisRoute = DashboardAnalisisRouteImport.update({
+  id: '/analisis',
+  path: '/analisis',
+  getParentRoute: () => DashboardRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/dashboard': typeof DashboardRouteWithChildren
+  '/dashboard/analisis': typeof DashboardAnalisisRoute
+  '/dashboard/dataset': typeof DashboardDatasetRoute
+  '/dashboard/hasil': typeof DashboardHasilRoute
+  '/dashboard/tentang': typeof DashboardTentangRoute
+  '/dashboard/': typeof DashboardIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/dashboard/analisis': typeof DashboardAnalisisRoute
+  '/dashboard/dataset': typeof DashboardDatasetRoute
+  '/dashboard/hasil': typeof DashboardHasilRoute
+  '/dashboard/tentang': typeof DashboardTentangRoute
+  '/dashboard': typeof DashboardIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/dashboard': typeof DashboardRouteWithChildren
+  '/dashboard/analisis': typeof DashboardAnalisisRoute
+  '/dashboard/dataset': typeof DashboardDatasetRoute
+  '/dashboard/hasil': typeof DashboardHasilRoute
+  '/dashboard/tentang': typeof DashboardTentangRoute
+  '/dashboard/': typeof DashboardIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/dashboard'
+    | '/dashboard/analisis'
+    | '/dashboard/dataset'
+    | '/dashboard/hasil'
+    | '/dashboard/tentang'
+    | '/dashboard/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/dashboard/analisis'
+    | '/dashboard/dataset'
+    | '/dashboard/hasil'
+    | '/dashboard/tentang'
+    | '/dashboard'
+  id:
+    | '__root__'
+    | '/'
+    | '/dashboard'
+    | '/dashboard/analisis'
+    | '/dashboard/dataset'
+    | '/dashboard/hasil'
+    | '/dashboard/tentang'
+    | '/dashboard/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  DashboardRoute: typeof DashboardRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,11 +130,67 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dashboard/': {
+      id: '/dashboard/'
+      path: '/'
+      fullPath: '/dashboard/'
+      preLoaderRoute: typeof DashboardIndexRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/tentang': {
+      id: '/dashboard/tentang'
+      path: '/tentang'
+      fullPath: '/dashboard/tentang'
+      preLoaderRoute: typeof DashboardTentangRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/hasil': {
+      id: '/dashboard/hasil'
+      path: '/hasil'
+      fullPath: '/dashboard/hasil'
+      preLoaderRoute: typeof DashboardHasilRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/dataset': {
+      id: '/dashboard/dataset'
+      path: '/dataset'
+      fullPath: '/dashboard/dataset'
+      preLoaderRoute: typeof DashboardDatasetRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/analisis': {
+      id: '/dashboard/analisis'
+      path: '/analisis'
+      fullPath: '/dashboard/analisis'
+      preLoaderRoute: typeof DashboardAnalisisRouteImport
+      parentRoute: typeof DashboardRoute
+    }
   }
 }
 
+interface DashboardRouteChildren {
+  DashboardAnalisisRoute: typeof DashboardAnalisisRoute
+  DashboardDatasetRoute: typeof DashboardDatasetRoute
+  DashboardHasilRoute: typeof DashboardHasilRoute
+  DashboardTentangRoute: typeof DashboardTentangRoute
+  DashboardIndexRoute: typeof DashboardIndexRoute
+}
+
+const DashboardRouteChildren: DashboardRouteChildren = {
+  DashboardAnalisisRoute: DashboardAnalisisRoute,
+  DashboardDatasetRoute: DashboardDatasetRoute,
+  DashboardHasilRoute: DashboardHasilRoute,
+  DashboardTentangRoute: DashboardTentangRoute,
+  DashboardIndexRoute: DashboardIndexRoute,
+}
+
+const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
+  DashboardRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  DashboardRoute: DashboardRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
