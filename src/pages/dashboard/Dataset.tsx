@@ -1,13 +1,8 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import * as XLSX from "xlsx";
 import { supabase } from "@/integrations/supabase/client";
 import { Search, Trash2, Upload } from "lucide-react";
 import type { Label } from "@/lib/naive-bayes";
-
-export const Route = createFileRoute("/dashboard/dataset")({
-  component: DatasetPage,
-});
 
 type Dataset = { id: string; name: string; total_rows: number; created_at: string };
 type Tweet = { id: string; tweet: string; label: Label; dataset_id: string };
@@ -20,7 +15,7 @@ function normalizeLabel(v: unknown): Label | null {
   return null;
 }
 
-function DatasetPage() {
+export default function DatasetPage() {
   const [datasets, setDatasets] = useState<Dataset[]>([]);
   const [activeId, setActiveId] = useState<string | null>(null);
   const [tweets, setTweets] = useState<Tweet[]>([]);
@@ -96,7 +91,6 @@ function DatasetPage() {
 
   return (
     <div className="space-y-6">
-      {/* Upload */}
       <div className="rounded-2xl border border-border bg-card p-6 shadow-[var(--shadow-card)]">
         <h2 className="font-display text-lg font-semibold">Upload Dataset</h2>
         <p className="mt-1 text-sm text-muted-foreground">
@@ -113,7 +107,6 @@ function DatasetPage() {
         {status && <p className="mt-3 text-sm text-muted-foreground">{status}</p>}
       </div>
 
-      {/* Datasets list */}
       {datasets.length > 0 && (
         <div className="rounded-2xl border border-border bg-card p-6 shadow-[var(--shadow-card)]">
           <h2 className="font-display text-lg font-semibold">Dataset Tersimpan</h2>
@@ -136,7 +129,6 @@ function DatasetPage() {
         </div>
       )}
 
-      {/* Preview */}
       {tweets.length > 0 && (
         <div className="rounded-2xl border border-border bg-card p-6 shadow-[var(--shadow-card)]">
           <div className="flex flex-wrap items-center justify-between gap-3">

@@ -1,16 +1,6 @@
-import { Link, Outlet, createFileRoute, useRouterState } from "@tanstack/react-router";
+import { Link, Outlet, useLocation } from "react-router-dom";
 import { BarChart3, Brain, Database, FileBarChart, GraduationCap, LayoutDashboard, Menu } from "lucide-react";
-import { useState } from "react";
-
-export const Route = createFileRoute("/dashboard")({
-  head: () => ({
-    meta: [
-      { title: "Dashboard — SentimenX" },
-      { name: "description", content: "Dashboard analisis sentimen Naive Bayes." },
-    ],
-  }),
-  component: DashboardLayout,
-});
+import { useEffect, useState } from "react";
 
 const NAV = [
   { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard, exact: true },
@@ -20,14 +10,18 @@ const NAV = [
   { to: "/dashboard/tentang", label: "Tentang Naive Bayes", icon: GraduationCap },
 ] as const;
 
-function DashboardLayout() {
-  const path = useRouterState({ select: (s) => s.location.pathname });
+export default function DashboardLayout() {
+  const { pathname } = useLocation();
   const [open, setOpen] = useState(false);
-  const isActive = (to: string, exact?: boolean) => (exact ? path === to : path === to || path.startsWith(to + "/"));
+  const isActive = (to: string, exact?: boolean) => (exact ? pathname === to : pathname === to || pathname.startsWith(to + "/"));
+
+  useEffect(() => {
+    const current = NAV.find((n) => isActive(n.to, (n as any).exact));
+    document.title = `${current?.label ?? "Dashboard"} — SentimenX`;
+  }, [pathname]);
 
   return (
     <div className="min-h-screen bg-secondary/30">
-      {/* Sidebar */}
       <aside
         className={`fixed inset-y-0 left-0 z-40 w-64 shrink-0 border-r border-sidebar-border bg-sidebar transition-transform md:translate-x-0 ${
           open ? "translate-x-0" : "-translate-x-full"
@@ -70,7 +64,6 @@ function DashboardLayout() {
       {open && <div className="fixed inset-0 z-30 bg-foreground/20 md:hidden" onClick={() => setOpen(false)} />}
 
       <div className="md:pl-64">
-        {/* Top bar */}
         <header className="sticky top-0 z-20 flex h-16 items-center justify-between border-b border-border bg-background/80 px-4 backdrop-blur md:px-8">
           <button onClick={() => setOpen((o) => !o)} className="rounded-lg p-2 text-foreground hover:bg-accent md:hidden">
             <Menu className="h-5 w-5" />

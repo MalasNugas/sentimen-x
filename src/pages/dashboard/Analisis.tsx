@@ -1,18 +1,14 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { evaluate, predict, train, trainTestSplit, type Label } from "@/lib/naive-bayes";
 import { analysisStore, useAnalysis } from "@/store/analysis-store";
 import { Brain, Play, Sparkles } from "lucide-react";
-import { LabelBadge } from "./dashboard.dataset";
-
-export const Route = createFileRoute("/dashboard/analisis")({
-  component: AnalisisPage,
-});
+import { LabelBadge } from "./Dataset";
 
 type Dataset = { id: string; name: string; total_rows: number };
 
-function AnalisisPage() {
+export default function AnalisisPage() {
   const [datasets, setDatasets] = useState<Dataset[]>([]);
   const [selected, setSelected] = useState<string>("");
   const [training, setTraining] = useState(false);
@@ -140,7 +136,6 @@ function AnalisisPage() {
         )}
       </div>
 
-      {/* Predict */}
       <div className="rounded-2xl border border-border bg-card p-6 shadow-[var(--shadow-card)]">
         <div className="flex items-center gap-2">
           <Sparkles className="h-5 w-5 text-primary" />
@@ -172,7 +167,7 @@ function AnalisisPage() {
         </div>
         {predictResult && (
           <div className="mt-3 grid gap-2 text-xs md:grid-cols-3">
-            {(["positif","netral","negatif"] as Label[]).map((l) => (
+            {(["positif", "netral", "negatif"] as Label[]).map((l) => (
               <div key={l} className="rounded-lg border border-border bg-background px-3 py-2">
                 <div className="capitalize text-muted-foreground">{l}</div>
                 <div className="font-mono">{predictResult.scores[l].toFixed(3)}</div>

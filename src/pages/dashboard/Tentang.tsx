@@ -1,11 +1,6 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { Brain, Calculator, Sparkles } from "lucide-react";
 
-export const Route = createFileRoute("/dashboard/tentang")({
-  component: TentangPage,
-});
-
-function TentangPage() {
+export default function TentangPage() {
   return (
     <div className="mx-auto max-w-4xl space-y-6">
       <div className="rounded-2xl border border-border bg-card p-8 shadow-[var(--shadow-card)]">

@@ -1,13 +1,9 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAnalysis } from "@/store/analysis-store";
 import { ArrowRight, Brain, Database as DbIcon, TrendingUp } from "lucide-react";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from "recharts";
-
-export const Route = createFileRoute("/dashboard/")({
-  component: DashboardHome,
-});
 
 const COLORS: Record<string, string> = {
   positif: "var(--positive)",
@@ -15,7 +11,7 @@ const COLORS: Record<string, string> = {
   negatif: "var(--negative)",
 };
 
-function DashboardHome() {
+export default function DashboardHome() {
   const analysis = useAnalysis();
   const [totalDb, setTotalDb] = useState<number | null>(null);
   const [dist, setDist] = useState<{ positif: number; netral: number; negatif: number }>({ positif: 0, netral: 0, negatif: 0 });
@@ -45,7 +41,6 @@ function DashboardHome() {
 
   return (
     <div className="space-y-6">
-      {/* Stats */}
       <div className="grid gap-4 md:grid-cols-4">
         <StatCard label="Total Dataset" value={datasetCount.toString()} icon={DbIcon} hint="Dataset terupload" />
         <StatCard label="Total Tweet" value={(totalDb ?? 0).toLocaleString()} icon={TrendingUp} hint="Baris di database" />
@@ -53,7 +48,6 @@ function DashboardHome() {
         <StatCard label="Akurasi" value={analysis.evaluation ? `${(analysis.evaluation.accuracy * 100).toFixed(1)}%` : "—"} icon={TrendingUp} hint="Pada data uji 20%" />
       </div>
 
-      {/* Distribution */}
       <div className="grid gap-4 lg:grid-cols-3">
         <div className="rounded-2xl border border-border bg-card p-6 shadow-[var(--shadow-card)] lg:col-span-2">
           <h2 className="font-display text-lg font-semibold">Distribusi Sentimen</h2>
@@ -97,7 +91,6 @@ function DashboardHome() {
         </div>
       </div>
 
-      {/* Quick actions */}
       <div className="grid gap-4 md:grid-cols-3">
         <ActionCard to="/dashboard/dataset" title="Kelola Dataset" desc="Upload XLSX dan jelajahi data." />
         <ActionCard to="/dashboard/analisis" title="Latih Model" desc="Training Naive Bayes 80:20." />

@@ -1,22 +1,14 @@
-import { Link, createFileRoute } from "@tanstack/react-router";
+import { Link } from "react-router-dom";
+import { useEffect } from "react";
 import { ArrowRight, BarChart3, Brain, Sparkles, Upload } from "lucide-react";
 
-export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title: "Analisis Sentimen X — Naive Bayes" },
-      { name: "description", content: "Aplikasi analisis sentimen masyarakat di media sosial X menggunakan algoritma Multinomial Naive Bayes." },
-      { property: "og:title", content: "Analisis Sentimen X — Naive Bayes" },
-      { property: "og:description", content: "Klasifikasi tweet positif, netral, dan negatif secara real-time." },
-    ],
-  }),
-  component: Landing,
-});
+export default function Landing() {
+  useEffect(() => {
+    document.title = "Analisis Sentimen X — Naive Bayes";
+  }, []);
 
-function Landing() {
   return (
     <div className="min-h-screen bg-background">
-      {/* Nav */}
       <header className="sticky top-0 z-30 border-b border-border/60 bg-background/80 backdrop-blur">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
           <div className="flex items-center gap-2">
@@ -30,20 +22,15 @@ function Landing() {
             <a href="#alur" className="hover:text-foreground">Alur Kerja</a>
             <Link to="/dashboard" className="hover:text-foreground">Dashboard</Link>
           </nav>
-          <Link
-            to="/dashboard"
-            className="inline-flex items-center gap-1.5 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow-sm transition hover:opacity-90"
-          >
+          <Link to="/dashboard" className="inline-flex items-center gap-1.5 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow-sm transition hover:opacity-90">
             Mulai Analisis <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
       </header>
 
-      {/* Hero */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 -z-10 [background:var(--gradient-soft)]" />
-        <div className="absolute -top-40 left-1/2 -z-10 h-[500px] w-[900px] -translate-x-1/2 rounded-full opacity-30 blur-3xl"
-          style={{ background: "var(--gradient-hero)" }} />
+        <div className="absolute -top-40 left-1/2 -z-10 h-[500px] w-[900px] -translate-x-1/2 rounded-full opacity-30 blur-3xl" style={{ background: "var(--gradient-hero)" }} />
         <div className="mx-auto max-w-5xl px-6 pb-24 pt-24 text-center md:pt-32">
           <span className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1 text-xs font-medium text-muted-foreground shadow-sm">
             <Sparkles className="h-3.5 w-3.5 text-primary" />
@@ -60,10 +47,7 @@ function Landing() {
             lengkap dengan evaluasi akurasi, confusion matrix, dan word cloud.
           </p>
           <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <Link
-              to="/dashboard"
-              className="inline-flex items-center gap-2 rounded-xl bg-primary px-6 py-3 font-medium text-primary-foreground shadow-[var(--shadow-elegant)] transition hover:opacity-95"
-            >
+            <Link to="/dashboard" className="inline-flex items-center gap-2 rounded-xl bg-primary px-6 py-3 font-medium text-primary-foreground shadow-[var(--shadow-elegant)] transition hover:opacity-95">
               Mulai Analisis <ArrowRight className="h-4 w-4" />
             </Link>
             <a href="#fitur" className="inline-flex items-center gap-2 rounded-xl border border-border bg-card px-6 py-3 font-medium text-foreground hover:bg-accent">
@@ -73,7 +57,6 @@ function Landing() {
         </div>
       </section>
 
-      {/* Fitur */}
       <section id="fitur" className="mx-auto max-w-7xl px-6 py-20">
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="font-display text-3xl font-bold tracking-tight md:text-4xl">Fitur Lengkap untuk Skripsi</h2>
@@ -96,7 +79,6 @@ function Landing() {
         </div>
       </section>
 
-      {/* Alur kerja */}
       <section id="alur" className="border-t border-border bg-secondary/40">
         <div className="mx-auto max-w-7xl px-6 py-20">
           <div className="mx-auto max-w-2xl text-center">
@@ -104,9 +86,9 @@ function Landing() {
             <p className="mt-3 text-muted-foreground">Empat langkah dari dataset mentah hingga laporan PDF.</p>
           </div>
           <ol className="mt-12 grid gap-6 md:grid-cols-4">
-            {["Upload Dataset","Training Model","Evaluasi","Export PDF"].map((s, i) => (
+            {["Upload Dataset", "Training Model", "Evaluasi", "Export PDF"].map((s, i) => (
               <li key={s} className="rounded-2xl border border-border bg-card p-6">
-                <div className="font-display text-3xl font-bold text-primary">0{i+1}</div>
+                <div className="font-display text-3xl font-bold text-primary">0{i + 1}</div>
                 <div className="mt-2 font-semibold">{s}</div>
               </li>
             ))}

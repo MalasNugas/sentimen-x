@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { Link } from "react-router-dom";
 import { useAnalysis } from "@/store/analysis-store";
 import { topWords, LABELS, type Label } from "@/lib/naive-bayes";
 import { useMemo, useRef } from "react";
@@ -6,11 +6,7 @@ import { Download, FileBarChart } from "lucide-react";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 
-export const Route = createFileRoute("/dashboard/hasil")({
-  component: HasilPage,
-});
-
-function HasilPage() {
+export default function HasilPage() {
   const a = useAnalysis();
   const reportRef = useRef<HTMLDivElement>(null);
 
@@ -96,7 +92,6 @@ function HasilPage() {
         </button>
       </div>
 
-      {/* Top metrics */}
       <div className="grid gap-4 md:grid-cols-4">
         <Metric label="Accuracy" value={`${(ev.accuracy * 100).toFixed(2)}%`} highlight />
         <Metric label="Macro Precision" value={`${(avg(LABELS.map((l) => ev.perClass[l].precision)) * 100).toFixed(2)}%`} />
@@ -104,7 +99,6 @@ function HasilPage() {
         <Metric label="Macro F1-Score" value={`${(ev.macroF1 * 100).toFixed(2)}%`} />
       </div>
 
-      {/* Per-class table */}
       <div className="rounded-2xl border border-border bg-card p-6 shadow-[var(--shadow-card)]">
         <h3 className="font-display text-lg font-semibold">Metrik per Kelas</h3>
         <div className="mt-4 overflow-auto">
@@ -127,7 +121,6 @@ function HasilPage() {
         </div>
       </div>
 
-      {/* Confusion Matrix */}
       <div className="rounded-2xl border border-border bg-card p-6 shadow-[var(--shadow-card)]">
         <h3 className="font-display text-lg font-semibold">Confusion Matrix</h3>
         <p className="mt-1 text-sm text-muted-foreground">Baris = label aktual, kolom = label prediksi.</p>
@@ -136,7 +129,6 @@ function HasilPage() {
         </div>
       </div>
 
-      {/* Word clouds */}
       <div className="grid gap-4 lg:grid-cols-2">
         <WordCloudCard label="positif" />
         <WordCloudCard label="negatif" />
